@@ -58,6 +58,31 @@ ENV LD_LIBRARY_PATH ${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib6
 ADD license_accepter.sh /opt/
 RUN /opt/license_accepter.sh $ANDROID_HOME
 
+# Platform tools
+RUN sdkmanager "emulator" "tools" "platform-tools"
+
+# SDKs
+# Please keep these in descending order!
+# The `yes` is for accepting all non-standard tool licenses.
+
+# Please keep all sections in descending order!
+RUN yes | sdkmanager \
+"platforms;android-27" \
+"platforms;android-25" \
+"build-tools;27.0.3" \
+"system-images;android-27;google_apis;x86" \
+"system-images;android-25;google_apis;armeabi-v7a" \
+"extras;android;m2repository" \
+"extras;google;m2repository" \
+"extras;google;google_play_services" \
+"extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2" \
+"extras;m2repository;com;android;support;constraint;constraint-layout;1.0.1" \
+"add-ons;addon-google_apis-google-23" \
+"add-ons;addon-google_apis-google-22" \
+"add-ons;addon-google_apis-google-21"
+
+RUN sdkmanager --update
+
 # setup adb server
 EXPOSE 5037
 
