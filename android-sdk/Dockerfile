@@ -8,7 +8,7 @@ FROM ubuntu:16.04
 
 # Author
 # ---------------------------------------------------------------------- #
-LABEL maintainer "thyrlian@gmail.com"
+LABEL maintainer "mail@sunnydaydev.me"
 
 # support multiarch: i386 architecture
 # install Java
@@ -22,7 +22,7 @@ RUN dpkg --add-architecture i386 && \
     apt-get install -y qt5-default
 
 # download and install Gradle
-ENV GRADLE_VERSION 4.4.1
+ENV GRADLE_VERSION 4.5
 RUN cd /opt && \
     wget -q https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip && \
     unzip gradle*.zip && \
@@ -30,7 +30,7 @@ RUN cd /opt && \
     rm gradle*.zip
 
 # download and install Kotlin compiler
-ENV KOTLIN_VERSION 1.2.10
+ENV KOTLIN_VERSION 1.2.30-eap-16
 RUN cd /opt && \
     wget -q https://github.com/JetBrains/kotlin/releases/download/v${KOTLIN_VERSION}/kotlin-compiler-${KOTLIN_VERSION}.zip && \
     unzip *kotlin*.zip && \
@@ -46,6 +46,7 @@ RUN mkdir -p /opt/android-sdk && cd /opt/android-sdk && \
 # set the environment variables
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 ENV GRADLE_HOME /opt/gradle
+ENV GRADLE_USER_HOME /opt/gradle
 ENV KOTLIN_HOME /opt/kotlinc
 ENV ANDROID_HOME /opt/android-sdk
 ENV PATH ${PATH}:${GRADLE_HOME}/bin:${KOTLIN_HOME}/bin:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/emulator
