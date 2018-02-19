@@ -19,7 +19,8 @@ RUN dpkg --add-architecture i386 && \
     apt-get install -y libncurses5:i386 libc6:i386 libstdc++6:i386 lib32gcc1 lib32ncurses5 lib32z1 zlib1g:i386 && \
     apt-get install -y --no-install-recommends openjdk-8-jdk && \
     apt-get install -y git wget zip && \
-    apt-get install -y qt5-default
+    apt-get install -y qt5-default && \
+    apt-get install -y curl
 
 # download and install Gradle
 ENV GRADLE_VERSION 4.5
@@ -55,7 +56,7 @@ ENV _JAVA_OPTIONS -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForH
 ENV LD_LIBRARY_PATH ${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib
 
 # accept the license agreements of the SDK components
-ADD android-sdk/license_accepter.sh /opt/
+ADD license_accepter.sh /opt/
 RUN /opt/license_accepter.sh $ANDROID_HOME
 
 # Platform tools
@@ -68,20 +69,8 @@ RUN sdkmanager "emulator" "tools" "platform-tools"
 # Please keep all sections in descending order!
 RUN yes | sdkmanager \
 "platforms;android-27" \
-"platforms;android-25" \
 "build-tools;27.0.3" \
-"system-images;android-27;google_apis;x86" \
-"system-images;android-25;google_apis;armeabi-v7a" \
-"extras;android;m2repository" \
-"extras;google;m2repository" \
-"extras;google;google_play_services" \
-"extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2" \
-"extras;m2repository;com;android;support;constraint;constraint-layout;1.0.1" \
-"add-ons;addon-google_apis-google-23" \
-"add-ons;addon-google_apis-google-22" \
-"add-ons;addon-google_apis-google-21"
-
-RUN sdkmanager --update
+"system-images;android-25;google_apis;armeabi-v7a"
 
 # setup adb server
 EXPOSE 5037
