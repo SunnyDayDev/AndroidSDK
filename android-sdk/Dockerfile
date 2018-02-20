@@ -21,6 +21,11 @@ RUN dpkg --add-architecture i386 && \
     apt-get install -y git wget zip curl && \
     apt-get install -y qt5-default
 
+# install locales
+ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
+RUN apt-get install -y locales && \
+    locale-gen en_US.UTF-8
+
 # download and install Gradle
 ENV GRADLE_VERSION 4.5
 RUN cd /opt && \
