@@ -25,7 +25,7 @@ RUN dpkg --add-architecture i386 && \
 # download and install Gradle
 ENV GRADLE_VERSION 4.5
 RUN cd /opt && \
-    wget -q https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip && \
+    wget -q https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-all.zip && \
     unzip gradle*.zip && \
     ls -d */ | sed 's/\/*$//g' | xargs -I{} mv {} gradle && \
     rm gradle*.zip
