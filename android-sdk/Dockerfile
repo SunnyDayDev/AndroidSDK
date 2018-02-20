@@ -18,16 +18,14 @@ RUN dpkg --add-architecture i386 && \
     apt-get update -y && \
     apt-get install -y libncurses5:i386 libc6:i386 libstdc++6:i386 lib32gcc1 lib32ncurses5 lib32z1 zlib1g:i386 && \
     apt-get install -y --no-install-recommends openjdk-8-jdk && \
-    apt-get install -y git wget zip && \
-    apt-get install -y qt5-default && \
-    apt-get install -y curl
+    apt-get install -y git wget zip curl && \
+    apt-get install -y qt5-default
 
 # download and install Gradle
 ENV GRADLE_VERSION 4.5
 RUN cd /opt && \
-    wget -q https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-all.zip && \
-    unzip gradle*.zip && \
-    ls -d */ | sed 's/\/*$//g' | xargs -I{} mv {} gradle && \
+    wget -q https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip && \
+    unzip gradle*.zip -d gradle && \
     rm gradle*.zip
 
 # download and install Kotlin compiler
@@ -47,7 +45,7 @@ RUN mkdir -p /opt/android-sdk && cd /opt/android-sdk && \
 # set the environment variables
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 ENV GRADLE_HOME /opt/gradle
-ENV GRADLE_USER_HOME /opt/gradle
+ENV GRADLE_USER_HOME $GRADLE_HOME
 ENV KOTLIN_HOME /opt/kotlinc
 ENV ANDROID_HOME /opt/android-sdk
 ENV PATH ${PATH}:${GRADLE_HOME}/bin:${KOTLIN_HOME}/bin:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/emulator
